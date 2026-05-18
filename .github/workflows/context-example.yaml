@@ -1,0 +1,83 @@
+name: Example workflow with multiple contexts
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select the environment to deploy to'
+        required: true
+        default: 'staging'
+        options:
+          - staging
+          - prod
+
+jobs:
+  # Job 1: Prepare
+  prepare:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Print github context
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Event: ${{ github.event_name }}"
+          echo "Actor: ${{ github.actor }}"
+          
+
+
+  # Job 2: build
+  build:
+    runs-on: ubuntu-latest
+    needs: prepare
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print Job context
+        run: |
+          echo "Job ID: ${{ job.id }}"
+          echo "Job Status: ${{ job.status }}"
+          echo "Job Conclusion: ${{ job.conclusion }}"
+      
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+  # Job 3: Deploy
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print runner context
+        run: |
+          echo "Runner OS: ${{ runner.os }}"
+          echo "Runner Architecture: ${{ runner.arch }}"
+          echo "Runner Name: ${{ runner.name }}"
+          echo "Runner Temporary Directory: ${{ runner.temp }}"
+
+      - name: Use secret variable
+        run: |
+          echo "PASSWORD: ${{ secrets.PASSWORD }}"
+
+      - name: Print Input variable
+        run: |
+          echo "Selected environment: ${{ github.event.inputs.environment }}"
+
+      - name: Deploy to selected environment
+        run: |
+          echo "Deploying to ${{ github.ref }} on  ${{ github.event.inputs.environment }} environment"
