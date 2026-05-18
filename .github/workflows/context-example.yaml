@@ -73,7 +73,7 @@ jobs:
         run: |
           if [ "${{ github.event.inputs.environment }}" == "staging" ]; then
             echo "Deploying to staging environment"
-            echo "BLOG_URL: ${{ vars.BLOG_URL }}"
+            echo "BLOG_URL=${{ vars.BLOG_URL }}"
           elif [ "${{ github.event.inputs.environment }}" == "prod" ]; then
             echo "Deploying to production environment"
             echo "PORTFOLIO_URL: ${{ vars.PORTFOLIO_URL }}"
