@@ -1,0 +1,39 @@
+name: Deploy to test environments
+
+on:
+  push:
+    branches:
+      - main
+      - test/**/*
+
+
+jobs:
+  deploy-to-staging:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+  
+      - name: Read environment variables
+        run: |
+          echo "Reading environment variables for staging environment"
+        run: echo "BLOG_URL=${{ vars.BLOG_URL }}" 
+
+  deploy-to-production: 
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+    
+      - name: Read environment variables
+        run: |
+          echo "Reading environment variables for production environment"
+        run: echo "PORTFOLIO_URL=${{ vars.PORTFOLIO_URL }}"
+
+      - name: Read environment secret variables 
+        run: |
+          echo "Reading environment secret variables for production environment"
+        run: echo "USERNAME=${{ secrets.USERNAME }}"
+        run: echo "PASSWORD=${{ secrets.PASSWORD }}"
