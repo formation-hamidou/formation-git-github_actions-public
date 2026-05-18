@@ -45,9 +45,7 @@ jobs:
 
       - name: Print Job context
         run: |
-          echo "Job ID: ${{ job.id }}"
           echo "Job Status: ${{ job.status }}"
-          echo "Job Conclusion: ${{ job.conclusion }}"
       
       - name: Install dependencies
         run: npm install
@@ -71,10 +69,19 @@ jobs:
           echo "Runner Name: ${{ runner.name }}"
           echo "Runner Temporary Directory: ${{ runner.temp }}"
 
-      - name: Use secret variable
+      - name: Use secret and variable
         run: |
-          echo "PASSWORD: ${{ secrets.PASSWORD }}"
-
+          if [ "${{ github.event.inputs.environment }}" == "staging" ]; then
+            echo "Deploying to staging environment"
+            echo "BLOG_URL: ${{ vars.BLOG_URL }}"
+          elif [ "${{ github.event.inputs.environment }}" == "prod" ]; then
+            echo "Deploying to production environment"
+            echo "PORTFOLIO_URL: ${{ vars.PORTFOLIO_URL }}"
+            echo "USERNAME: ${{ secrets.USERNAME }}"
+            echo "PASSWORD: ${{ secrets.PASSWORD }}"
+          else
+            echo "Unknown environment: ${{ github.event.inputs.environment }}"
+          fi
       - name: Print Input variable
         run: |
           echo "Selected environment: ${{ github.event.inputs.environment }}"
