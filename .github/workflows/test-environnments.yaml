@@ -18,7 +18,7 @@ jobs:
       - name: Read environment variables
         run: |
           echo "Reading environment variables for staging environment"
-        run: echo "BLOG_URL=${{ vars.BLOG_URL }}" 
+          echo "BLOG_URL=${{ vars.BLOG_URL }}" 
 
   deploy-to-production: 
     runs-on: ubuntu-latest
@@ -30,10 +30,10 @@ jobs:
       - name: Read environment variables
         run: |
           echo "Reading environment variables for production environment"
-        run: echo "PORTFOLIO_URL=${{ vars.PORTFOLIO_URL }}"
+          echo "PORTFOLIO_URL=${{ vars.PORTFOLIO_URL }}"
 
       - name: Read environment secret variables 
         run: |
           echo "Reading environment secret variables for production environment"
-        run: echo "USERNAME=${{ secrets.USERNAME }}"
-        run: echo "PASSWORD=${{ secrets.PASSWORD }}"
+          echo "USERNAME=${{ secrets.USERNAME }}"
+          echo "PASSWORD=${{ secrets.PASSWORD }}"
