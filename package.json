@@ -1,0 +1,16 @@
+{
+    "name": "simple-node-app",
+    "version": "1.0.0",
+    "description": "Une simple application node.json",
+    "main":"index.js", 
+
+    "scripts": {
+        "test": "node test.js",
+        "build":" echo 'En Execution ... Rien a complier pour cette exemple'",
+        "deploy":" echo 'En deploiement ... Rien a deployer pour cette exemple'"
+    },
+    "author": "",
+    "license":"ISC"
+
+
+}
