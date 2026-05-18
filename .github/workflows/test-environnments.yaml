@@ -4,35 +4,36 @@ on:
   push:
     branches:
       - main
-      - test/**/*
-
+      - 'test/**'
 
 jobs:
   deploy-to-staging:
     runs-on: ubuntu-latest
     environment: staging
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-  
+        uses: actions/checkout@v4
+
       - name: Read environment variables
         run: |
           echo "Reading environment variables for staging environment"
-          echo "BLOG_URL=${{ vars.BLOG_URL }}" 
+          echo "BLOG_URL=${{ vars.BLOG_URL }}"
 
-  deploy-to-production: 
+  deploy-to-production:
     runs-on: ubuntu-latest
     environment: prod
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-    
+        uses: actions/checkout@v4
+
       - name: Read environment variables
         run: |
           echo "Reading environment variables for production environment"
           echo "PORTFOLIO_URL=${{ vars.PORTFOLIO_URL }}"
 
-      - name: Read environment secret variables 
+      - name: Read environment secret variables
         run: |
           echo "Reading environment secret variables for production environment"
           echo "USERNAME=${{ secrets.USERNAME }}"
